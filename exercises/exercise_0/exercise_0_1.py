@@ -30,13 +30,13 @@ users = [
 ]
 
 
-def schema_validation(data: list[dict] | dict) -> list:
-    """returns list of indexes for rows not passing validation"""
+def schema_validation(data: list[dict] | dict) -> dict:
+    """Returns dictionary mapping invalid row indexes to dict of field errors."""
 
     if isinstance(data, dict):
         data = [data]
 
-    rows_issues = []
+    rows_issues = {}
     for i, row in enumerate(data):
         row_validation = {
             "id": isinstance(row.get("id"), int),
@@ -46,11 +46,14 @@ def schema_validation(data: list[dict] | dict) -> list:
         }
 
         if not all(v for v in row_validation.values()):
-            rows_issues.append(i)
+            row_errors = {
+                i: {k: row.get(k) for k, v in row_validation.items() if v is False}
+            }
+            rows_issues.update(row_errors)
 
-    return rows_issues if rows_issues else []
+    return rows_issues if rows_issues else {}
 
 
 # Test all available data
-schema_validation(student)
-schema_validation(users)
+for item in (student, users):
+    print(schema_validation(item))
