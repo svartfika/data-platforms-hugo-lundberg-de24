@@ -1,3 +1,5 @@
+from timeit import timeit
+
 # a)
 
 student = {"id": 101, "name": "Erika", "is_active": True, "age": 45}
@@ -30,7 +32,8 @@ users = [
 ]
 
 
-def schema_validation(data: list[dict] | dict) -> dict:
+# v0.1 first solution
+def schema_validation1(data: list[dict] | dict) -> dict:
     """Returns dictionary mapping invalid row indexes to dict of field errors."""
 
     if isinstance(data, dict):
@@ -54,6 +57,29 @@ def schema_validation(data: list[dict] | dict) -> dict:
     return rows_issues if rows_issues else {}
 
 
-# Test all available data
-for item in (student, users):
-    print(schema_validation(item))
+# v0.2 more optimized solution without unnecessary iterations 
+def schema_validation(data: list[dict] | dict, schema: dict[str, type]) -> dict:
+    if isinstance(data, dict):
+        data = [data]
+
+    rows_issues = {}
+    for i, row in enumerate(data):
+        fields_issues = {
+            key: row.get(key)
+            for key, field_type in schema.items()
+            if not isinstance(row.get(key), field_type)
+        }
+        if fields_issues:
+            rows_issues[i] = fields_issues
+
+    return rows_issues
+
+
+# Testing
+
+a = timeit(lambda: schema_validation1(users), number=1000)
+
+schema = {"id": int, "name": str, "is_active": bool, "age": int}
+b = timeit(lambda: schema_validation(users, schema), number=1000)
+
+print(a, b, sep="\n")
