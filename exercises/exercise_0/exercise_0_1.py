@@ -77,9 +77,13 @@ def schema_validation(data: list[dict] | dict, schema: dict[str, type]) -> dict:
 
 # Testing
 
+from exercise_0_1d import validate_schema
+
 a = timeit(lambda: schema_validation1(users), number=1000)
 
 schema = {"id": int, "name": str, "is_active": bool, "age": int}
 b = timeit(lambda: schema_validation(users, schema), number=1000)
 
-print(a, b, sep="\n")
+c = timeit(lambda: validate_schema(users), number=1000)
+
+print(a, b, c, sep="\n")
