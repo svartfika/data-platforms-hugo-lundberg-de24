@@ -1,3 +1,4 @@
+from exercise_0_1d import validate_schema
 from timeit import timeit
 
 # a)
@@ -76,8 +77,6 @@ def schema_validation(data: list[dict] | dict, schema: dict[str, type]) -> dict:
 
 
 # Testing
-
-from exercise_0_1d import validate_schema
 
 a = timeit(lambda: schema_validation1(users), number=1000)
 
