@@ -1,0 +1,40 @@
+{
+    // Pylance (Language Server) Settings
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.autoSearchPaths": true,
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.importFormat": "relative",
+    "python.analysis.indexing": true,
+    // Disable Pylance linting where Ruff is better
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportUnusedImport": "none",
+        "reportUnusedVariable": "none",
+        "reportUnusedFunction": "none",
+        "reportInvalidStringEscapeSequence": "none",
+        "reportMissingImports": "warning", // Keep this as warning to catch real missing packages
+        "reportGeneralTypeIssues": "warning" // Keep type checking active
+    },
+    // Ruff Settings
+    "ruff.enable": true,
+    "ruff.organizeImports": true,
+    "ruff.lint.run": "onSave",
+    "ruff.typeCheckingMode": "off", // Let Pylance handle types
+    "ruff.lint.enable": true,
+    "ruff.codeAction.fixViolation": {
+        "enable": true
+    },
+    // Editor Settings for Python
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.ruff": "explicit",
+        "source.organizeImports.ruff": "explicit"
+    },
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff", // Use Ruff for formatting
+        "editor.formatOnSave": true,
+        "editor.rulers": [
+            120
+        ], // Black's default line length
+        "editor.wordWrapColumn": 120
+    }
+}
