@@ -1,0 +1,4 @@
+services:
+  py-env-test:
+    volumes:
+      - ./src:/usr/src/app
