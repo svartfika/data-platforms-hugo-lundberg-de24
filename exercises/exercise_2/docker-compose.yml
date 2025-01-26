@@ -1,0 +1,10 @@
+services:
+  exercise:
+    build:
+      context: .
+      dockerfile: Dockerfile.exercise_2_1
+    image: ex0-image
+    container_name: ex0-container
+    volumes:
+      - ./src:/usr/src/app
+    command: python os_data.py
