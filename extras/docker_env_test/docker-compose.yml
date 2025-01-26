@@ -1,0 +1,4 @@
+services:
+  py-env-test:
+    build: ./
+    image: py-env-test
