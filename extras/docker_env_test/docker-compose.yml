@@ -2,3 +2,5 @@ services:
   py-env-test:
     build: ./
     image: py-env-test
+    environment:
+      - API_KEY=abc123
