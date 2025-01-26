@@ -4,3 +4,6 @@ services:
     image: py-env-test
     environment:
       - API_KEY=abc123
+      - BOOL_VAR=false
+    env_file:
+      - .env
