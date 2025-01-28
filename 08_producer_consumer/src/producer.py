@@ -8,7 +8,7 @@ data_path = Path(__file__).parents[1] / "data"
 with open(data_path / "jokes.json") as f:
     data = json.load(f)
 
-app = Application(broker_address="localhost:9092", consumer_group="text-splitter")
+app = Application(broker_address="127.0.0.1:9092", consumer_group="text-splitter")
 
 topic_jokes = app.topic(name="jokes", value_deserializer="json")
 
