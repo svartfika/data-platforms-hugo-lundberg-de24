@@ -4,31 +4,35 @@ from itertools import cycle
 from pathlib import Path
 
 import pandas as pd
+from quixstreams import Application
 
 PATH_DATA = Path(__file__).parents[1] / "data" / "orders.json"
 
+app = Application(
+    broker_address="127.0.0.1:9092",
+    consumer_group="product_orders",
+)
 
-# using while-loop with modulus reset
-def main1():
-    df_products = pd.read_json(PATH_DATA)["products"].explode()
-
-    i = 0
-    while True:
-        product = df_products.iloc[i]
-        print(product)
-
-        time.sleep(random.uniform(0.1, 0.5))
-        i = (i + 1) % len(df_products)
+topic_product_orders = app.topic(name="product_orders")
 
 
-# using built-in itertools cycle() on df series
 def main():
     df_products = pd.read_json(Path(PATH_DATA))["products"].explode()
 
-    for product in cycle(df_products):
-        print(product)
+    with app.get_producer() as p:
+        for product in cycle(df_products):
+            kafka_msg = topic_product_orders.serialize(
+                key=product["name"], value=product
+            )
+            print(f"{kafka_msg.value=}")
 
-        time.sleep(random.uniform(0.1, 0.5))
+            p.produce(
+                topic="product_orders",
+                key=kafka_msg.key,
+                value=kafka_msg.value,
+            )
+
+            time.sleep(random.uniform(0.5, 2.5))
 
 
 if __name__ == "__main__":
