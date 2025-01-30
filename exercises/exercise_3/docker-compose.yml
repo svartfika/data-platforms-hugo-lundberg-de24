@@ -1,0 +1,15 @@
+services:
+  kafka-consumer:
+    build: ./
+    container_name: python-kafka-consumer
+    volumes:
+      - ./src/exercise_3_2_consumer.py:/usr/src/app/consumer.py
+    command: python /usr/src/app/consumer.py
+
+  kafka-producer:
+    build: ./
+    container_name: python-kafka-producer
+    volumes:
+      - ./src/exercise_3_2_producer.py:/usr/src/app/src/producer.py
+      - ./data:/usr/src/app/data
+    command: python /usr/src/app/src/producer.py
