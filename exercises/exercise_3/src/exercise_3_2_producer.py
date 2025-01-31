@@ -1,3 +1,4 @@
+import os
 import random
 import time
 from itertools import cycle
@@ -8,8 +9,10 @@ from quixstreams import Application
 
 PATH_DATA = Path(__file__).parents[1] / "data" / "orders.json"
 
+broker_server = os.getenv("BROKER_SERVER", "localhost:9092")
+
 app = Application(
-    broker_address="127.0.0.1:9092",
+    broker_address=broker_server,
     consumer_group="product_orders",
 )
 

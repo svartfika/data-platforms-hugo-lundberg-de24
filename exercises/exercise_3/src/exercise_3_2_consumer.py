@@ -1,7 +1,11 @@
+import os
+
 from quixstreams import Application
 
+broker_server = os.getenv("BROKER_SERVER", "localhost:9092")
+
 app = Application(
-    broker_address="localhost:9092",
+    broker_address=broker_server,
     consumer_group="product_orders",
 )
 
