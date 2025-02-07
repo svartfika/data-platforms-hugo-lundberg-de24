@@ -41,7 +41,7 @@ def get_quote(session: Session, symbol="BTC", convert="USD") -> tuple[str, dict]
     data = next(iter(response.json().get("data").get(symbol, [])), None)
     if not data:
         raise ValueError(f"Symbol not found: '{symbol}'")
-    return symbol, data.get("quote")
+    return symbol, data
 
 
 def main() -> None:
